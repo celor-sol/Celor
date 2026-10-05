@@ -1,0 +1,27 @@
+{
+  "arithmetic_safety": "INTEGER_SAFE_U128",
+  "epoch_isolation_validation": {
+    "epoch_10_result": {
+      "active_stake": 100000,
+      "participating_stake": 80000,
+      "participation_bps": 8000,
+      "status": "FinalityEffective",
+      "threshold_met": true
+    },
+    "epoch_11_result": {
+      "active_stake": 160000,
+      "participating_stake": 80000,
+      "participation_bps": 5000,
+      "reason": "Participation 5000 bps < required 8000 bps",
+      "status": "StakeInvalid",
+      "threshold_met": false
+    },
+    "test": "identical_certificate_across_differing_epoch_stake_tables"
+  },
+  "precision": "Basis points (100.00% = 10,000 bps)",
+  "thresholds": {
+    "fallback_path_bps": 6000,
+    "fast_path_bps": 8000,
+    "skip_path_bps": 6000
+  }
+}

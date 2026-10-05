@@ -1,0 +1,16 @@
+{
+  "id": "20261003-185217-local-local-fixture",
+  "description": "Empirical A/B Benchmark on local",
+  "cluster": "local",
+  "source": "local-fixture",
+  "route": "local-fixture",
+  "transaction_type": "sol-transfer-deterministic",
+  "sample_count": 1000,
+  "max_tps": 5000.0,
+  "timeout_ms": 3000,
+  "random_seed": 42,
+  "interleave_mode": true,
+  "leader_window_focus": false,
+  "bank_awareness": true,
+  "finality_target": "confirmed"
+}

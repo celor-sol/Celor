@@ -1,0 +1,28 @@
+{
+  "bls12_381_implementation": "solana-bls-signatures v3.4.0 (BLST pairing curve)",
+  "cryptographic_verification": "GENUINE_PAIRING_CHECK",
+  "tests": [
+    {
+      "result": "PASS",
+      "test": "valid_signature_over_canonical_message",
+      "verification_status": "SignatureValid"
+    },
+    {
+      "reason": "Cryptographic pairing check failed",
+      "result": "PASS",
+      "test": "tampered_payload_attack_rejection",
+      "verification_status": "SignatureInvalid"
+    },
+    {
+      "reason": "Point decompression / pairing failure",
+      "result": "PASS",
+      "test": "tampered_signature_bytes_rejection",
+      "verification_status": "SignatureInvalid"
+    },
+    {
+      "result": "PASS",
+      "test": "unknown_future_certificate_type_quarantine",
+      "verification_status": "UnknownCertificateType"
+    }
+  ]
+}

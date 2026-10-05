@@ -1,0 +1,35 @@
+[package]
+name = "chrono-bench"
+version = "0.1.0"
+edition = "2021"
+description = "CHRONO Real-Time Benchmarking & Execution Routing Lab Subsystem"
+
+[dependencies]
+chrono-core = { path = "../chrono-core" }
+chrono-adapters = { path = "../chrono-adapters" }
+chrono-bank = { path = "../chrono-bank" }
+chrono-clock = { path = "../chrono-clock" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+async-trait = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+chrono = { workspace = true }
+reqwest = { workspace = true }
+bs58 = "0.5"
+base64 = "0.22"
+ed25519-dalek = { version = "2.1", features = ["rand_core"] }
+rand = "0.8"
+solana-client = "4.3.0"
+solana-tpu-client = "4.3.0"
+solana-connection-cache = "4.3.0"
+solana-quic-client = "4.3.0"
+solana-streamer = "4.3.0"
+solana-keypair = "3.1"
+solana-signer = "3.0"
+solana-pubkey = "4.4.0"
+
+[lints]
+workspace = true
+

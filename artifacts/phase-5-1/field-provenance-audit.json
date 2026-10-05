@@ -1,0 +1,151 @@
+{
+  "target": "testnet",
+  "mode": "LIVE_CLUSTER",
+  "timestamp_utc": "2026-10-03T22:03:34.910929+00:00",
+  "fields": [
+    {
+      "field": "current_slot",
+      "value": "448218891",
+      "source": "testnet (Public JSON-RPC getSlot)",
+      "provenance": "DIRECT",
+      "freshness": "LIVE",
+      "availability": "AVAILABLE",
+      "reason": "Direct monotonic cluster slot observation"
+    },
+    {
+      "field": "active_leader",
+      "value": "141vSYKGRPNGieSrGJy8EeDVBcbjSr6aWkimNgrNZ6xN",
+      "source": "testnet (Public JSON-RPC getSlotLeaders)",
+      "provenance": "DERIVED",
+      "freshness": "LIVE",
+      "availability": "AVAILABLE",
+      "reason": "Derived from cluster leader schedule via getSlotLeaders RPC"
+    },
+    {
+      "field": "next_leader",
+      "value": "SFidro6Vf1om3EncVNWrm8Svg3uqSSKUmJ8HQvcVXsz",
+      "source": "testnet (Public JSON-RPC getSlotLeaders)",
+      "provenance": "DERIVED",
+      "freshness": "LIVE",
+      "availability": "AVAILABLE",
+      "reason": "Derived from lookahead cluster leader schedule (S+1)"
+    },
+    {
+      "field": "bank_id",
+      "value": "UNAVAILABLE",
+      "source": "Public JSON-RPC",
+      "provenance": "UNAVAILABLE",
+      "freshness": "N/A",
+      "availability": "UNAVAILABLE",
+      "reason": "Validator-local bank identity; standard Solana JSON-RPC does not expose bank_id (requires Yellowstone gRPC or Geyser)"
+    },
+    {
+      "field": "bank_hash",
+      "value": "UNAVAILABLE",
+      "source": "Public JSON-RPC",
+      "provenance": "UNAVAILABLE",
+      "freshness": "N/A",
+      "availability": "UNAVAILABLE",
+      "reason": "Interim accounts delta accumulator; omitted by standard public RPC (requires Yellowstone gRPC or Geyser)"
+    },
+    {
+      "field": "candidate_banks",
+      "value": "UNAVAILABLE",
+      "source": "Public JSON-RPC",
+      "provenance": "UNAVAILABLE",
+      "freshness": "N/A",
+      "availability": "UNAVAILABLE",
+      "reason": "Standard RPC only emits confirmed linear blocks; candidate-bank branch telemetry requires validator Geyser"
+    },
+    {
+      "field": "parent",
+      "value": "Slot 448218890",
+      "source": "testnet (Public JSON-RPC getBlock)",
+      "provenance": "DIRECT",
+      "freshness": "LIVE",
+      "availability": "AVAILABLE",
+      "reason": "Authoritative parent slot present in sealed block"
+    },
+    {
+      "field": "update_parent",
+      "value": "UNAVAILABLE",
+      "source": "Public JSON-RPC",
+      "provenance": "UNAVAILABLE",
+      "freshness": "N/A",
+      "availability": "UNAVAILABLE",
+      "reason": "SIMD-0337 fast leader handover marker is internal validator shred/entry level; RPC does not stream UpdateParent"
+    },
+    {
+      "field": "producer_time",
+      "value": "UNAVAILABLE",
+      "source": "Public JSON-RPC",
+      "provenance": "UNAVAILABLE",
+      "freshness": "N/A",
+      "availability": "UNAVAILABLE",
+      "reason": "RPC blockTime is coarse unix second timestamp, not validator producer nanosecond clock"
+    },
+    {
+      "field": "user_agent",
+      "value": "UNAVAILABLE",
+      "source": "Public JSON-RPC",
+      "provenance": "UNAVAILABLE",
+      "freshness": "N/A",
+      "availability": "UNAVAILABLE",
+      "reason": "Standard RPC block headers omit producer validator software user-agent identity"
+    },
+    {
+      "field": "block_footer",
+      "value": "UNAVAILABLE",
+      "source": "Public JSON-RPC",
+      "provenance": "UNAVAILABLE",
+      "freshness": "N/A",
+      "availability": "UNAVAILABLE",
+      "reason": "SIMD-0326 Alpenglow block footer is omitted by standard Solana JSON-RPC"
+    },
+    {
+      "field": "certificate",
+      "value": "UNAVAILABLE",
+      "source": "Public JSON-RPC",
+      "provenance": "UNAVAILABLE",
+      "freshness": "N/A",
+      "availability": "UNAVAILABLE",
+      "reason": "BLS notarization certificates are not exposed via standard Solana JSON-RPC"
+    },
+    {
+      "field": "deshred",
+      "value": "UNAVAILABLE",
+      "source": "Public JSON-RPC",
+      "provenance": "UNAVAILABLE",
+      "freshness": "N/A",
+      "availability": "UNAVAILABLE",
+      "reason": "Requires Turbine shred pipeline ingestion or validator shred stream"
+    },
+    {
+      "field": "root",
+      "value": "Slot 448218860",
+      "source": "testnet (Public JSON-RPC getSlot/finalized)",
+      "provenance": "DIRECT",
+      "freshness": "LIVE",
+      "availability": "AVAILABLE",
+      "reason": "Rooted on cluster via TowerBFT 32 progressive lockouts (~12.8s)"
+    },
+    {
+      "field": "finality_state",
+      "value": "ROOTED (TowerBFT 32-Lockout)",
+      "source": "testnet (Public JSON-RPC)",
+      "provenance": "DIRECT",
+      "freshness": "LIVE",
+      "availability": "AVAILABLE",
+      "reason": "Cluster commitment root confirmed"
+    },
+    {
+      "field": "finality_latency_ms",
+      "value": "UNAVAILABLE",
+      "source": "Public JSON-RPC",
+      "provenance": "UNAVAILABLE",
+      "freshness": "N/A",
+      "availability": "UNAVAILABLE",
+      "reason": "Public RPC lacks sub-slot validator notarization timestamps; calculating sub-150ms latency is impossible without internal timestamps"
+    }
+  ]
+}

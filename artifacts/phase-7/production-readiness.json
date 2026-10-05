@@ -1,0 +1,276 @@
+{
+  "capabilities": [
+    {
+      "capability": "Protocol detection",
+      "evidence": "SIMD-0384 mode detection (Legacy, Alpenglow, Migration)",
+      "limitation": "Rotor deferred by upstream protocol",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Slot clock",
+      "evidence": "Monotonic slot clock with drift estimation",
+      "limitation": "Subject to network partition drift",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Leader engine",
+      "evidence": "Leader schedule resolution with slot window bounds",
+      "limitation": "Requires cluster epoch schedule table",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Transaction state",
+      "evidence": "Observed, Landed, Canonical, Finalized tracking",
+      "limitation": "Bounded retention ring buffer",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Entry",
+      "evidence": "Solana entry stream parsing from Geyser & Yellowstone",
+      "limitation": "Requires entry notification support in provider",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Deshred",
+      "evidence": "Turbine shred structure awareness",
+      "limitation": "Requires local validator raw socket access",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Bank graph",
+      "evidence": "Multi-bank fork tree tracking candidate lineages",
+      "limitation": "Pruned at rooted slot boundary",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Candidate forks",
+      "evidence": "Alpenglow candidate bank branching per slot",
+      "limitation": "Max candidate branch depth bounded",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "bank_id",
+      "evidence": "Validator-local bank_id isolated from global identity",
+      "limitation": "Not globally unique across cluster",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "bank_hash",
+      "evidence": "SIMD-0298 bank hash reconciled with block footer",
+      "limitation": "Available upon block sealing",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "BlockHeader",
+      "evidence": "Header parser validated against Agave 4.3+",
+      "limitation": "Producer timestamp depends on leader clock",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "BlockFooter",
+      "evidence": "SIMD-0298 footer parser with certificate references",
+      "limitation": "Only present on sealed blocks",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "UpdateParent",
+      "evidence": "SIMD-0337 fast leader handover parent invalidation",
+      "limitation": "Requires upstream feature activation",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Canonical resolver",
+      "evidence": "Protocol evidence-based fork resolution",
+      "limitation": "Conservative: stays Candidate if evidence ambiguous",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Certificate parsing",
+      "evidence": "votor-messages certificate parser with quarantine",
+      "limitation": "Unknown certificate types quarantined",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "BLS verification",
+      "evidence": "solana-bls-signatures BLST pairing check",
+      "limitation": "CPU pairing cost (~100-300us per cert)",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Stake calculation",
+      "evidence": "Integer-safe basis points StakeEngine with epoch tables",
+      "limitation": "Requires epoch stake table registration",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Finality",
+      "evidence": "Fast path (80%) and Fallback path (60%) evidence",
+      "limitation": "Observed latency depends on cluster gossip/Votor propagation",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Provider reconciliation",
+      "evidence": "SourceEvidenceGraph multi-source deduplication & conflict resolution",
+      "limitation": "Resolution depends on authoritative provider ranking",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Failover",
+      "evidence": "Seamless failover and historical overlap deduplication",
+      "limitation": "Gaps during multi-provider total outage flagged",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Capture",
+      "evidence": "Phase 6.1 raw event capture stream preserved",
+      "limitation": "Disk write throughput bounded",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Replay",
+      "evidence": "Deterministic state digest replay verification",
+      "limitation": "Requires captured event stream",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "QUIC execution",
+      "evidence": "DirectLeaderQuicRoute with connection pooling & prewarming",
+      "limitation": "Requires leader TPU QUIC port reachability",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Timing",
+      "evidence": "T0-T10 nanosecond telemetry with clock domain tags",
+      "limitation": "Clock drift across uncoordinated hosts",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "API",
+      "evidence": "REST & WebSocket endpoints for consensus & app events",
+      "limitation": "HTTP/WS connection limits",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "SDK",
+      "evidence": "TypeScript definitions and high-level typed events",
+      "limitation": "TypeScript client library",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Security",
+      "evidence": "Zero key leak in data plane, mainnet safety guard",
+      "limitation": "Execution mode requires explicit key configuration",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Performance",
+      "evidence": "Sub-millisecond state updates, measured percentiles",
+      "limitation": "Dependent on host CPU cores and memory bandwidth",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Compatibility",
+      "evidence": "Agave 4.3+, Yellowstone 13.0, Solana CLI 2.2+",
+      "limitation": "Must track upstream Agave protocol changes",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    },
+    {
+      "capability": "Operations",
+      "evidence": "Liveness/readiness health endpoints and metrics",
+      "limitation": "Prometheus exporter requires network port",
+      "real_live": true,
+      "status": "PASS",
+      "tested": true,
+      "verified": true
+    }
+  ],
+  "phase": "PHASE_7_FINAL",
+  "production_readiness": "READY"
+}

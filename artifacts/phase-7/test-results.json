@@ -1,0 +1,19 @@
+{
+  "clippy_warnings": 0,
+  "frontend_build": "SUCCESS",
+  "test_suite_status": "ALL_TESTS_PASS",
+  "total_tests_failed": 0,
+  "total_tests_passed": 78,
+  "typescript_errors": 0,
+  "workspace_crates_tested": [
+    "chrono-core",
+    "chrono-bank",
+    "chrono-clock",
+    "chrono-detector",
+    "chrono-adapters",
+    "chrono-bench",
+    "chrono-geyser-plugin",
+    "chrono-server",
+    "chrono-cli"
+  ]
+}

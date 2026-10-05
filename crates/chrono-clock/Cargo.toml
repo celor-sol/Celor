@@ -1,0 +1,10 @@
+[package]
+name = "chrono-clock"
+version = "0.1.0"
+edition = "2021"
+description = "Monotonic high-resolution slot clock and dynamic slot duration tracker for CHRONO"
+
+[dependencies]
+chrono-core = { path = "../chrono-core" }
+serde = { workspace = true }
+tokio = { workspace = true }

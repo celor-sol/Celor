@@ -1,0 +1,18 @@
+[package]
+name = "chrono-bank"
+version = "0.1.0"
+edition = "2021"
+description = "Bank graph, parent engine, UpdateParent engine, and canonical resolver for CHRONO"
+
+[dependencies]
+chrono-core = { path = "../chrono-core" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+solana-bls-signatures = "3.4.0"
+
+[lints]
+workspace = true
+

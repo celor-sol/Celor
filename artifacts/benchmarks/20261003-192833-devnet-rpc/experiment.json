@@ -1,0 +1,16 @@
+{
+  "id": "20261003-192833-devnet-rpc",
+  "description": "Empirical A/B Benchmark on devnet",
+  "cluster": "devnet",
+  "source": "rpc-stream",
+  "route": "rpc-standard-vs-chrono",
+  "transaction_type": "sol-transfer-deterministic",
+  "sample_count": 50,
+  "max_tps": 1.0,
+  "timeout_ms": 10000,
+  "random_seed": 42,
+  "interleave_mode": true,
+  "leader_window_focus": false,
+  "bank_awareness": false,
+  "finality_target": "confirmed"
+}

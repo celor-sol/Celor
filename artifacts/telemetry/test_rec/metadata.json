@@ -1,0 +1,9 @@
+{
+  "captured_at": "2026-10-03T22:51:35.848489+00:00",
+  "duration_ms": 0,
+  "environment": "fixture",
+  "recording_id": "rec_20261003_225135",
+  "security_audit": "PASSED (Zero validator keys, private seeds, or secrets stored)",
+  "source": "local-specification-fixture",
+  "total_events": 10
+}

@@ -1,0 +1,14 @@
+{
+  "health_tracking": [
+    "connected",
+    "disconnected",
+    "degraded",
+    "catching_up",
+    "lagging",
+    "healthy",
+    "stale"
+  ],
+  "reconnection_behavior": "Historical deduplication, gap detection, zero false state reset, zero state corruption",
+  "result": "PASS",
+  "test": "provider_a_disconnect_failover_to_provider_b"
+}

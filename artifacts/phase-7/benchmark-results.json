@@ -1,0 +1,58 @@
+{
+  "benchmarks": {
+    "execution_decision_engine": {
+      "latency_us": {
+        "max": 14.5,
+        "min": 0.291,
+        "p50": 0.5,
+        "p90": 0.542,
+        "p95": 0.542,
+        "p99": 0.666
+      },
+      "metric_classification": "[MEASURED]",
+      "sample_count": 20000,
+      "throughput_ops_sec": 951684.1836036711
+    },
+    "genuine_bls12_381_verification": {
+      "latency_us": {
+        "max": 5938.041,
+        "min": 1766.042,
+        "p50": 1791.791,
+        "p90": 2090.667,
+        "p95": 2424.167,
+        "p99": 3527.75
+      },
+      "metric_classification": "[MEASURED]",
+      "sample_count": 1000,
+      "throughput_ops_sec": 527.1698971004479
+    },
+    "ingestion_and_normalization": {
+      "latency_us": {
+        "max": 720.542,
+        "min": 0.458,
+        "p50": 0.75,
+        "p90": 1.375,
+        "p95": 1.625,
+        "p99": 2.417
+      },
+      "metric_classification": "[MEASURED]",
+      "sample_count": 20000,
+      "throughput_ops_sec": 847396.2986068636
+    },
+    "state_update_and_canonical_resolution": {
+      "latency_us": {
+        "max": 3109.625,
+        "min": 4.833,
+        "p50": 5.25,
+        "p90": 6.667,
+        "p95": 7.041,
+        "p99": 8.708
+      },
+      "metric_classification": "[MEASURED]",
+      "sample_count": 10000,
+      "throughput_ops_sec": 148970.243193922
+    }
+  },
+  "methodology": "Monotonic hardware timer (Instant::now), zero-allocation loop, statistical percentiles across N samples",
+  "status": "MEASURED"
+}

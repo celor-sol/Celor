@@ -1,0 +1,11 @@
+[package]
+name = "chrono-core"
+version = "0.1.0"
+edition = "2021"
+description = "Domain primitives, bank identity, events, bus, and state for CHRONO"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+thiserror = { workspace = true }

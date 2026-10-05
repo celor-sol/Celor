@@ -1,0 +1,433 @@
+{
+  "schema_version": 1,
+  "sequence": 156,
+  "snapshot_timestamp_ms": 1791065003597,
+  "cluster": "devnet",
+  "source": "rpc",
+  "environment": "live",
+  "status": "LIVE",
+  "slot": {
+    "current_slot": 507142821,
+    "target_duration_ms": 400,
+    "elapsed_ms": 4,
+    "phase_ratio": 0.011,
+    "provenance": "DIRECT"
+  },
+  "leader": {
+    "current_leader": "Cw6X5R68muAyGRCb7W8ZSP2YbaRjwMs1t5sBEPkhdwbM",
+    "next_leader": "Cw6X5R68muAyGRCb7W8ZSP2YbaRjwMs1t5sBEPkhdwbM",
+    "handoff_state": "SLOT_CONTINUATION",
+    "lookahead": [
+      {
+        "slot": 507142822,
+        "leader": "Cw6X5R68muAyGRCb7W8ZSP2YbaRjwMs1t5sBEPkhdwbM"
+      },
+      {
+        "slot": 507142823,
+        "leader": "Cw6X5R68muAyGRCb7W8ZSP2YbaRjwMs1t5sBEPkhdwbM"
+      },
+      {
+        "slot": 507142824,
+        "leader": "dv2eQHeP4RFrJZ6UeiZWoc3XTtmtZCUKxxCApCDcRNV"
+      },
+      {
+        "slot": 507142825,
+        "leader": "dv2eQHeP4RFrJZ6UeiZWoc3XTtmtZCUKxxCApCDcRNV"
+      },
+      {
+        "slot": 507142826,
+        "leader": "dv2eQHeP4RFrJZ6UeiZWoc3XTtmtZCUKxxCApCDcRNV"
+      },
+      {
+        "slot": 507142827,
+        "leader": "dv2eQHeP4RFrJZ6UeiZWoc3XTtmtZCUKxxCApCDcRNV"
+      },
+      {
+        "slot": 507142828,
+        "leader": "dv3qDFk1DTF36Z62bNvrCXe9sKATA6xvVy6A798xxAS"
+      },
+      {
+        "slot": 507142829,
+        "leader": "dv3qDFk1DTF36Z62bNvrCXe9sKATA6xvVy6A798xxAS"
+      },
+      {
+        "slot": 507142830,
+        "leader": "dv3qDFk1DTF36Z62bNvrCXe9sKATA6xvVy6A798xxAS"
+      },
+      {
+        "slot": 507142831,
+        "leader": "dv3qDFk1DTF36Z62bNvrCXe9sKATA6xvVy6A798xxAS"
+      }
+    ],
+    "provenance": "DERIVED"
+  },
+  "banks": {
+    "candidate_banks": [],
+    "canonical_bank": null,
+    "total_banks_tracked": 0
+  },
+  "parent": {
+    "last_update_parent": null,
+    "total_update_parents": 0
+  },
+  "finality": {
+    "mode": "TOWER_BFT_FALLBACK",
+    "finality_latency_ms": null,
+    "last_finalized_slot": 507142790,
+    "cert_type": null,
+    "stake_percent": null,
+    "provenance": "DIRECT"
+  },
+  "capabilities": {
+    "dimensions": {
+      "slot": "YES",
+      "bank_hash": "NO",
+      "parent": "YES",
+      "bank_id": "NO",
+      "update_parent": "NO",
+      "block_footer": "NO",
+      "certificates": "NO",
+      "producer_time": "NO",
+      "producer_user_agent": "NO",
+      "deshred": "NO",
+      "leader": "DERIVED"
+    },
+    "coverage_score": 27,
+    "limitations": [
+      "bank_id is omitted by standard public RPC (requires Yellowstone gRPC or Geyser)",
+      "UpdateParent notifications are omitted by standard public RPC",
+      "BLS consensus certificates are omitted by standard public RPC",
+      "Alpenglow block footers are omitted by standard public RPC"
+    ]
+  },
+  "network": {
+    "connected": true,
+    "rpc_endpoint": "https://api.devnet.solana.com",
+    "live_tps": null,
+    "active_validators": null,
+    "last_update_ms": 1791065003597
+  },
+  "telemetry": {
+    "events_received_total": 156,
+    "events_normalized_total": 156,
+    "events_dropped_total": 0,
+    "source_latency_us": 0,
+    "processing_latency_us": 8,
+    "websocket_clients": 0
+  },
+  "recent_events": [
+    {
+      "schema_version": 1,
+      "sequence": 156,
+      "event_id": 2,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065003597,
+      "received_at_ms": 1791065003597,
+      "slot": 507142821,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": null,
+      "parent_blockhash": null,
+      "provenance": "DERIVED",
+      "event_type": "LeaderObserved",
+      "payload": {
+        "leader": "Cw6X5R68muAyGRCb7W8ZSP2YbaRjwMs1t5sBEPkhdwbM",
+        "slot": 507142821
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 155,
+      "event_id": 6,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065003597,
+      "received_at_ms": 1791065003597,
+      "slot": 507142821,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": 507142820,
+      "parent_blockhash": null,
+      "provenance": "DIRECT",
+      "event_type": "SlotObserved",
+      "payload": {
+        "leader": "Cw6X5R68muAyGRCb7W8ZSP2YbaRjwMs1t5sBEPkhdwbM",
+        "next_leader": "Cw6X5R68muAyGRCb7W8ZSP2YbaRjwMs1t5sBEPkhdwbM",
+        "parent_slot": 507142820,
+        "slot": 507142821,
+        "target_duration_ms": 400
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 154,
+      "event_id": 2,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065003445,
+      "received_at_ms": 1791065003445,
+      "slot": 507142820,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": null,
+      "parent_blockhash": null,
+      "provenance": "DERIVED",
+      "event_type": "LeaderObserved",
+      "payload": {
+        "leader": "Cw6X5R68muAyGRCb7W8ZSP2YbaRjwMs1t5sBEPkhdwbM",
+        "slot": 507142820
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 153,
+      "event_id": 5,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065003445,
+      "received_at_ms": 1791065003445,
+      "slot": 507142820,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": 507142819,
+      "parent_blockhash": null,
+      "provenance": "DIRECT",
+      "event_type": "SlotObserved",
+      "payload": {
+        "leader": "Cw6X5R68muAyGRCb7W8ZSP2YbaRjwMs1t5sBEPkhdwbM",
+        "next_leader": "Cw6X5R68muAyGRCb7W8ZSP2YbaRjwMs1t5sBEPkhdwbM",
+        "parent_slot": 507142819,
+        "slot": 507142820,
+        "target_duration_ms": 400
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 152,
+      "event_id": 2,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065003097,
+      "received_at_ms": 1791065003098,
+      "slot": 507142819,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": null,
+      "parent_blockhash": null,
+      "provenance": "DERIVED",
+      "event_type": "LeaderObserved",
+      "payload": {
+        "leader": "dv1ZAGvdsz5hHLwWXsVnM94hWf1pjbKVau1QVkaMJ92",
+        "slot": 507142819
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 151,
+      "event_id": 4,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065003097,
+      "received_at_ms": 1791065003098,
+      "slot": 507142819,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": 507142818,
+      "parent_blockhash": null,
+      "provenance": "DIRECT",
+      "event_type": "SlotObserved",
+      "payload": {
+        "leader": "dv1ZAGvdsz5hHLwWXsVnM94hWf1pjbKVau1QVkaMJ92",
+        "next_leader": "Cw6X5R68muAyGRCb7W8ZSP2YbaRjwMs1t5sBEPkhdwbM",
+        "parent_slot": 507142818,
+        "slot": 507142819,
+        "target_duration_ms": 400
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 150,
+      "event_id": 2,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065002884,
+      "received_at_ms": 1791065002884,
+      "slot": 507142818,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": null,
+      "parent_blockhash": null,
+      "provenance": "DERIVED",
+      "event_type": "LeaderObserved",
+      "payload": {
+        "leader": "dv1ZAGvdsz5hHLwWXsVnM94hWf1pjbKVau1QVkaMJ92",
+        "slot": 507142818
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 149,
+      "event_id": 3,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065002884,
+      "received_at_ms": 1791065002884,
+      "slot": 507142818,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": 507142817,
+      "parent_blockhash": null,
+      "provenance": "DIRECT",
+      "event_type": "SlotObserved",
+      "payload": {
+        "leader": "dv1ZAGvdsz5hHLwWXsVnM94hWf1pjbKVau1QVkaMJ92",
+        "next_leader": "dv1ZAGvdsz5hHLwWXsVnM94hWf1pjbKVau1QVkaMJ92",
+        "parent_slot": 507142817,
+        "slot": 507142818,
+        "target_duration_ms": 400
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 148,
+      "event_id": 2,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065002665,
+      "received_at_ms": 1791065002665,
+      "slot": 507142817,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": null,
+      "parent_blockhash": null,
+      "provenance": "DERIVED",
+      "event_type": "LeaderObserved",
+      "payload": {
+        "leader": "dv1ZAGvdsz5hHLwWXsVnM94hWf1pjbKVau1QVkaMJ92",
+        "slot": 507142817
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 147,
+      "event_id": 2,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065002665,
+      "received_at_ms": 1791065002665,
+      "slot": 507142817,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": 507142816,
+      "parent_blockhash": null,
+      "provenance": "DIRECT",
+      "event_type": "SlotObserved",
+      "payload": {
+        "leader": "dv1ZAGvdsz5hHLwWXsVnM94hWf1pjbKVau1QVkaMJ92",
+        "next_leader": "dv1ZAGvdsz5hHLwWXsVnM94hWf1pjbKVau1QVkaMJ92",
+        "parent_slot": 507142816,
+        "slot": 507142817,
+        "target_duration_ms": 400
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 146,
+      "event_id": 2,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065002593,
+      "received_at_ms": 1791065002593,
+      "slot": 507142816,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": null,
+      "parent_blockhash": null,
+      "provenance": "DERIVED",
+      "event_type": "LeaderObserved",
+      "payload": {
+        "leader": "dv1ZAGvdsz5hHLwWXsVnM94hWf1pjbKVau1QVkaMJ92",
+        "slot": 507142816
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 145,
+      "event_id": 1,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065002593,
+      "received_at_ms": 1791065002593,
+      "slot": 507142816,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": 507142815,
+      "parent_blockhash": null,
+      "provenance": "DIRECT",
+      "event_type": "SlotObserved",
+      "payload": {
+        "leader": "dv1ZAGvdsz5hHLwWXsVnM94hWf1pjbKVau1QVkaMJ92",
+        "next_leader": "dv1ZAGvdsz5hHLwWXsVnM94hWf1pjbKVau1QVkaMJ92",
+        "parent_slot": 507142815,
+        "slot": 507142816,
+        "target_duration_ms": 400
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 144,
+      "event_id": 2,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065002227,
+      "received_at_ms": 1791065002227,
+      "slot": 507142813,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": null,
+      "parent_blockhash": null,
+      "provenance": "DERIVED",
+      "event_type": "LeaderObserved",
+      "payload": {
+        "leader": "dv2eQHeP4RFrJZ6UeiZWoc3XTtmtZCUKxxCApCDcRNV",
+        "slot": 507142813
+      }
+    },
+    {
+      "schema_version": 1,
+      "sequence": 143,
+      "event_id": 1,
+      "cluster": "devnet",
+      "source": "rpc",
+      "environment": "live",
+      "observed_at_ms": 1791065002227,
+      "received_at_ms": 1791065002227,
+      "slot": 507142813,
+      "bank_id": null,
+      "blockhash": null,
+      "parent_slot": null,
+      "parent_blockhash": null,
+      "provenance": "DERIVED",
+      "event_type": "LeaderScheduleObserved",
+      "payload": {
+        "count": 200,
+        "sample_leader": "dv2eQHeP4RFrJZ6UeiZWoc3XTtmtZCUKxxCApCDcRNV",
+        "starting_slot": 507142813
+      }
+    }
+  ]
+}

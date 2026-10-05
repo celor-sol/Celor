@@ -1,0 +1,37 @@
+[package]
+name = "chrono-server"
+version = "0.1.0"
+edition = "2021"
+description = "CHRONO Live Rust Service, API, and Normalized Stream Bridge"
+
+[dependencies]
+chrono-core = { path = "../chrono-core" }
+chrono-detector = { path = "../chrono-detector" }
+chrono-clock = { path = "../chrono-clock" }
+chrono-adapters = { path = "../chrono-adapters" }
+chrono-bank = { path = "../chrono-bank" }
+chrono-bench = { path = "../chrono-bench" }
+
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+axum = { workspace = true }
+tower-http = { workspace = true }
+tower = { workspace = true }
+futures-util = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+async-trait = { workspace = true }
+thiserror = { workspace = true }
+chrono = { workspace = true }
+reqwest = { workspace = true }
+
+[dev-dependencies]
+chrono-geyser-plugin = { path = "../chrono-geyser-plugin" }
+solana-bls-signatures = "3.4.0"
+
+[lints]
+workspace = true
+
+
+

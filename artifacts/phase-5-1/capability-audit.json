@@ -1,0 +1,161 @@
+{
+  "audit_name": "CHRONO_PROVIDER_CAPABILITY_AUDIT",
+  "evaluation_standard": "SIMD-0326 / SIMD-0337 / Agave 4.3+",
+  "metrics": {
+    "public_rpc": {
+      "provider": "Standard Solana Public JSON-RPC (Free Tier)",
+      "coverage_score_percent": 27,
+      "supported_dimensions_count": 3,
+      "total_dimensions_count": 11,
+      "dimensions": {
+        "slot": {
+          "status": "YES",
+          "provenance": "DIRECT",
+          "protocol_support": "YES",
+          "provider_observability": "YES",
+          "currently_observed": "YES",
+          "mechanism": "slotSubscribe / getSlot"
+        },
+        "leader": {
+          "status": "DERIVED",
+          "provenance": "DERIVED",
+          "protocol_support": "YES",
+          "provider_observability": "YES",
+          "currently_observed": "YES",
+          "mechanism": "getSlotLeaders / getLeaderSchedule"
+        },
+        "bank_id": {
+          "status": "NO",
+          "provenance": "UNAVAILABLE",
+          "protocol_support": "YES",
+          "provider_observability": "NO",
+          "currently_observed": "NO",
+          "reason": "Validator-local internal Agave bank identifier"
+        },
+        "bank_hash": {
+          "status": "NO",
+          "provenance": "UNAVAILABLE",
+          "protocol_support": "YES",
+          "provider_observability": "NO",
+          "currently_observed": "NO",
+          "reason": "Interim state accumulator hash omitted by RPC"
+        },
+        "parent": {
+          "status": "YES",
+          "provenance": "DIRECT",
+          "protocol_support": "YES",
+          "provider_observability": "YES",
+          "currently_observed": "YES",
+          "mechanism": "getBlock.parentSlot"
+        },
+        "update_parent": {
+          "status": "NO",
+          "provenance": "UNAVAILABLE",
+          "protocol_support": "YES",
+          "provider_observability": "NO",
+          "currently_observed": "NO",
+          "reason": "SIMD-0337 fast leader handover entry-level marker omitted by RPC"
+        },
+        "block_footer": {
+          "status": "NO",
+          "provenance": "UNAVAILABLE",
+          "protocol_support": "YES",
+          "provider_observability": "NO",
+          "currently_observed": "NO",
+          "reason": "SIMD-0326 Alpenglow block footer omitted by standard RPC"
+        },
+        "certificates": {
+          "status": "NO",
+          "provenance": "UNAVAILABLE",
+          "protocol_support": "YES",
+          "provider_observability": "NO",
+          "currently_observed": "NO",
+          "reason": "Off-chain BLS notarization certificates omitted by standard RPC"
+        },
+        "producer_time": {
+          "status": "NO",
+          "provenance": "UNAVAILABLE",
+          "protocol_support": "YES",
+          "provider_observability": "NO",
+          "currently_observed": "NO",
+          "reason": "Only coarse blockTime (unix seconds) exposed; nanosecond producer clock omitted"
+        },
+        "producer_user_agent": {
+          "status": "NO",
+          "provenance": "UNAVAILABLE",
+          "protocol_support": "YES",
+          "provider_observability": "NO",
+          "currently_observed": "NO",
+          "reason": "Producer validator client software version omitted from block headers"
+        },
+        "deshred": {
+          "status": "NO",
+          "provenance": "UNAVAILABLE",
+          "protocol_support": "YES",
+          "provider_observability": "NO",
+          "currently_observed": "NO",
+          "reason": "Requires raw Turbine shred pipeline ingestion"
+        }
+      }
+    },
+    "yellowstone_grpc": {
+      "provider": "Yellowstone gRPC / Geyser Plugin",
+      "coverage_score_percent": 91,
+      "supported_dimensions_count": 10,
+      "total_dimensions_count": 11,
+      "dimensions": {
+        "slot": {
+          "status": "YES",
+          "provenance": "DIRECT"
+        },
+        "leader": {
+          "status": "DERIVED",
+          "provenance": "DERIVED"
+        },
+        "bank_id": {
+          "status": "YES",
+          "provenance": "DIRECT"
+        },
+        "bank_hash": {
+          "status": "YES",
+          "provenance": "DIRECT"
+        },
+        "parent": {
+          "status": "YES",
+          "provenance": "DIRECT"
+        },
+        "update_parent": {
+          "status": "YES",
+          "provenance": "DIRECT"
+        },
+        "block_footer": {
+          "status": "YES",
+          "provenance": "DIRECT"
+        },
+        "certificates": {
+          "status": "YES",
+          "provenance": "DIRECT"
+        },
+        "producer_time": {
+          "status": "YES",
+          "provenance": "DIRECT"
+        },
+        "producer_user_agent": {
+          "status": "YES",
+          "provenance": "DIRECT"
+        },
+        "deshred": {
+          "status": "NO",
+          "provenance": "UNAVAILABLE"
+        }
+      }
+    },
+    "local_geyser_fixture": {
+      "provider": "Local Geyser Fixture Mode (zsh Development Baseline)",
+      "coverage_score_percent": 100,
+      "supported_dimensions_count": 11,
+      "total_dimensions_count": 11,
+      "provenance_standard": "DERIVED / FIXTURE (Never claimed as direct live network)"
+    }
+  }
+}

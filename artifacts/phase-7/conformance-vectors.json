@@ -1,0 +1,42 @@
+{
+  "audited_simds": [
+    {
+      "invariants": [
+        "slot != block: Multiple candidate banks per slot supported",
+        "bank_id is validator-local: Global reconciliation uses (slot, blockhash)",
+        "States: Observed != Processed != Candidate != Canonical != Notarized != Finalized"
+      ],
+      "simd": "SIMD-0326",
+      "status": "CONFORMANT",
+      "title": "Alpenglow Consensus Architecture"
+    },
+    {
+      "invariants": [
+        "BlockFooter contains bank_hash, slot, block identity, producer metadata",
+        "Deterministic verification against bank hash and certificate references"
+      ],
+      "simd": "SIMD-0298",
+      "status": "CONFORMANT",
+      "title": "Block Footer / Bank Hash Inclusion"
+    },
+    {
+      "invariants": [
+        "Explicit parent switch marker invalidates abandoned parent candidate bank",
+        "Execution decision engine aborts or rolls back routes referencing abandoned bank"
+      ],
+      "simd": "SIMD-0337",
+      "status": "CONFORMANT",
+      "title": "UpdateParent / Fast Leader Handover"
+    },
+    {
+      "invariants": [
+        "Protocol modes: LegacyTowerBFT, Alpenglow, Migration, FeatureInactive, FeatureActive",
+        "Zero silent semantic mixing across migration boundaries"
+      ],
+      "simd": "SIMD-0384",
+      "status": "CONFORMANT",
+      "title": "Alpenglow Migration Boundary"
+    }
+  ],
+  "protocol_conformance_status": "VERIFIED"
+}

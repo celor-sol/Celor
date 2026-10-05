@@ -1,0 +1,31 @@
+[package]
+name = "chrono-cli"
+version = "0.1.0"
+edition = "2021"
+description = "Celor Command-Line Interface and Live Cluster Operator Tool"
+
+[[bin]]
+name = "celor"
+path = "src/main.rs"
+
+[dependencies]
+chrono-core = { path = "../chrono-core" }
+chrono-detector = { path = "../chrono-detector" }
+chrono-clock = { path = "../chrono-clock" }
+chrono-adapters = { path = "../chrono-adapters" }
+chrono-bank = { path = "../chrono-bank" }
+chrono-server = { path = "../chrono-server" }
+chrono-bench = { path = "../chrono-bench" }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+chrono = { workspace = true }
+reqwest = { workspace = true }
+sha2 = "0.10"
+
+[lints]
+workspace = true
+
+

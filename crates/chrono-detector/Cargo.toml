@@ -1,0 +1,14 @@
+[package]
+name = "chrono-detector"
+version = "0.1.0"
+edition = "2021"
+description = "Cluster capability detector and Alpenglow genesis certificate inspector for CHRONO"
+
+[dependencies]
+chrono-core = { path = "../chrono-core" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+reqwest = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }

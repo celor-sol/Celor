@@ -1,0 +1,43 @@
+[workspace]
+members = [
+    "crates/chrono-core",
+    "crates/chrono-detector",
+    "crates/chrono-clock",
+    "crates/chrono-adapters",
+    "crates/chrono-bank",
+    "crates/chrono-cli",
+    "crates/chrono-server",
+    "crates/chrono-bench",
+    "crates/chrono-geyser-plugin",
+]
+resolver = "2"
+
+[workspace.dependencies]
+tokio = { version = "1.36", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+reqwest = { version = "0.11", features = ["json"] }
+tokio-tungstenite = { version = "0.21", features = ["connect", "handshake"] }
+futures-util = "0.3"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+async-trait = "0.1"
+thiserror = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+axum = { version = "0.7", features = ["ws"] }
+tower-http = { version = "0.5", features = ["cors", "trace"] }
+tower = { version = "0.4", features = ["util"] }
+
+[workspace.lints.clippy]
+field_reassign_with_default = "allow"
+redundant_pattern_matching = "allow"
+bool_assert_comparison = "allow"
+type_complexity = "allow"
+print_literal = "allow"
+unnecessary_map_or = "allow"
+get_first = "allow"
+wildcard_in_or_patterns = "allow"
+needless_borrows_for_generic_args = "allow"
+large_enum_variant = "allow"
+
+

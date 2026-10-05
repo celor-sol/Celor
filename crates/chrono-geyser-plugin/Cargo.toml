@@ -1,0 +1,20 @@
+[package]
+name = "chrono-geyser-plugin"
+version = "0.1.0"
+edition = "2021"
+description = "In-process Agave Validator Geyser Plugin for CHRONO telemetry ingestion"
+
+[lib]
+name = "chrono_geyser_plugin"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+chrono-core = { path = "../chrono-core" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+async-trait = { workspace = true }
+agave-geyser-plugin-interface = "4.3.0"
+solana-clock = "3.2.0"

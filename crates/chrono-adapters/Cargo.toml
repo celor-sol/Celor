@@ -1,0 +1,27 @@
+[package]
+name = "chrono-adapters"
+version = "0.1.0"
+edition = "2021"
+description = "Cluster adapters, provider adapters, WebSocket streams, and normalizer for CHRONO"
+
+[dependencies]
+chrono-core = { path = "../chrono-core" }
+chrono-detector = { path = "../chrono-detector" }
+chrono-geyser-plugin = { path = "../chrono-geyser-plugin" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tokio-tungstenite = { version = "0.21", features = ["native-tls"] }
+futures-util = { workspace = true }
+reqwest = { workspace = true }
+async-trait = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+yellowstone-grpc-proto = "13.0.0"
+bs58 = "0.5"
+tonic = { version = "0.14", default-features = false, features = ["channel", "tls-webpki-roots"] }
+tokio-stream = { version = "0.1", features = ["sync"] }
+
+[lints]
+workspace = true
+

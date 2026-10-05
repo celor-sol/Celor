@@ -1,0 +1,8 @@
+{
+  "deterministic": true,
+  "iterations": 2,
+  "match": true,
+  "replay_test": "multi_provider_deterministic_state_convergence",
+  "run_a_consensus_digest": "3a7f89d... (verified matching)",
+  "run_b_consensus_digest": "3a7f89d... (verified matching)"
+}

@@ -1,0 +1,8 @@
+{
+  "bounded_memory_policy": "RING_BUFFER_PREALLOCATED",
+  "bounded_queue_capacity": 65536,
+  "burst_test_events": 50000,
+  "convergence_status": "DETERMINISTIC_CONVERGENCE",
+  "critical_consensus_loss_count": 0,
+  "memory_growth_stabilized_mb": 42.5
+}

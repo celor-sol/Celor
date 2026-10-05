@@ -1,0 +1,11 @@
+{
+  "libpath": "/Users/prakhargaur/Desktop/CHRONO/target/release/libchrono_geyser_plugin.dylib",
+  "uds_socket_path": "/tmp/chrono_geyser.sock",
+  "observer_validator_id": "LocalAgaveTestValidator",
+  "enable_bank_status": true,
+  "enable_block_footer": true,
+  "enable_update_parent": true,
+  "enable_deshred": true,
+  "enable_entries": true,
+  "channel_buffer_capacity": 65536
+}

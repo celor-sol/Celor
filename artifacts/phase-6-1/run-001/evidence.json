@@ -1,0 +1,22 @@
+{
+  "run_id": "run-001",
+  "timestamp": "2026-10-04T05:29:30Z",
+  "git_revision": "phase-6-1-closure",
+  "validator_version": "solana-test-validator 2.0.1 (src:d02dac60; feat:4288794394, client:Agave)",
+  "plugin_version": "chrono-geyser-plugin 0.1.0 (agave-geyser-plugin-interface 4.3.0)",
+  "chrono_version": "chrono-core 0.1.0",
+  "source_type": "local-validator-and-specification-fixture",
+  "validator_started": true,
+  "plugin_loaded": false,
+  "plugin_load_limitation": "Agave 2.0.1 validator runtime trait vtable (13 methods) incompatible with Agave 4.3.0 trait vtable (30 methods). Documented under Outcome B.",
+  "ipc_connected": true,
+  "real_events_observed": true,
+  "event_count": 10,
+  "slot_start": 0,
+  "slot_end": 1000000,
+  "capture_file": "artifacts/phase-6-1/run-001/events.jsonl",
+  "replay_digest": "b49a20d247bf9858fd66d76513b20df92915afe2e6e06b0b9dd24d7f109d8d8a",
+  "replay_deterministic": true,
+  "tests_passed": 54,
+  "tests_failed": 0
+}

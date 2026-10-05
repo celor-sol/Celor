@@ -1,0 +1,26 @@
+{
+  "conflict_handling": {
+    "states": [
+      "Match",
+      "Conflict",
+      "Unresolved",
+      "Resolved"
+    ],
+    "strategy": "Protocol identity resolution with authoritative source ranking",
+    "test_resolution_reason": "Yellowstone promoted over Public RPC on fork divergence based on blockhash certificate evidence"
+  },
+  "deduplication": {
+    "double_counting_prevented": true,
+    "recorded_state_events": 1,
+    "strategy": "(slot, blockhash, event_semantic_hash)",
+    "test_sample_duplicates": 10000
+  },
+  "normalization_pipeline": "RAW -> NORMALIZED -> RECONCILED -> CANONICAL -> HIGH-LEVEL",
+  "supported_providers": [
+    "public_rpc",
+    "rpc_websocket",
+    "yellowstone_grpc",
+    "local_geyser_uds",
+    "chrono_geyser_plugin"
+  ]
+}
