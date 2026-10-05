@@ -20,6 +20,9 @@ pub struct ChronoServer {
     ws_clients: Arc<AtomicU64>,
     source_manager: Arc<crate::source::SourceManager>,
     event_rx: Arc<tokio::sync::Mutex<Option<mpsc::Receiver<chrono_core::events::ChronoEvent>>>>,
+    sniper_engine: Arc<crate::sniper::SniperEngine>,
+    quic_route: Option<Arc<chrono_bench::route::DirectLeaderQuicRoute>>,
+    sniper_ws_tx: tokio::sync::broadcast::Sender<crate::sniper::ExecutionRecord>,
 }
 
 impl ChronoServer {
@@ -30,6 +33,15 @@ impl ChronoServer {
         let (event_tx, event_rx) = mpsc::channel(1_000);
         let source_manager = Arc::new(crate::source::SourceManager::new(event_tx));
 
+        let sniper_engine = Arc::new(crate::sniper::SniperEngine::new());
+        
+        let resolver = Arc::new(chrono_bench::leader_transport::LeaderTransportResolver::new(config.rpc_url.clone()));
+        let quic_route = chrono_bench::route::DirectLeaderQuicRoute::new(config.rpc_url.clone(), resolver)
+            .ok()
+            .map(|r| Arc::new(r.with_chrono_awareness(true)));
+
+        let (sniper_ws_tx, _) = tokio::sync::broadcast::channel(1_000);
+
         Self {
             config,
             engine,
@@ -37,6 +49,9 @@ impl ChronoServer {
             ws_clients,
             source_manager,
             event_rx: Arc::new(tokio::sync::Mutex::new(Some(event_rx))),
+            sniper_engine,
+            quic_route,
+            sniper_ws_tx,
         }
     }
 
@@ -63,6 +78,9 @@ impl ChronoServer {
             start_time: Instant::now(),
             config: self.config.clone(),
             ws_clients: self.ws_clients.clone(),
+            sniper_engine: self.sniper_engine.clone(),
+            quic_route: self.quic_route.clone(),
+            sniper_ws_tx: self.sniper_ws_tx.clone(),
         };
 
         let cors = CorsLayer::new()
@@ -115,16 +133,66 @@ impl ChronoServer {
             .ok_or("event_rx already consumed")?;
         let engine_clone = self.engine.clone();
         let broadcast_tx_clone = self.broadcast_tx.clone();
+        let sniper_engine_clone = self.sniper_engine.clone();
+        let cluster = self.config.cluster.clone();
 
         tokio::spawn(async move {
             while let Some(core_event) = event_rx.recv().await {
-                let service_event = {
+                let (service_event, freshness) = {
                     let mut eng = engine_clone.write().await;
-                    eng.process_event(core_event)
+                    let svc_event = eng.process_event(core_event.clone());
+                    
+                    let slot_elapsed_ms = eng.build_snapshot(0).slot.elapsed_ms;
+                    let remaining_window_ms = eng.build_snapshot(0).slot.target_duration_ms.saturating_sub(slot_elapsed_ms);
+                    let freshness = chrono_bench::freshness::FreshnessState {
+                        slot_tier: chrono_bench::freshness::FreshnessTier::Fresh,
+                        slot_elapsed_ms,
+                        slot_target_duration_ms: eng.build_snapshot(0).slot.target_duration_ms,
+                        leader_tier: chrono_bench::freshness::FreshnessTier::Fresh,
+                        current_leader: eng.build_snapshot(0).leader.current_leader,
+                        next_leader: eng.build_snapshot(0).leader.next_leader,
+                        remaining_window_ms,
+                        blockhash_tier: chrono_bench::freshness::FreshnessTier::Fresh,
+                        blockhash: "11111111111111111111111111111111".to_string(),
+                        blockhash_age_ms: slot_elapsed_ms,
+                        blockhash_age_slots: 0,
+                        source_tier: chrono_bench::freshness::FreshnessTier::Fresh,
+                        last_event_received_ago_ms: 5,
+                        bank_tier: chrono_bench::freshness::BankFreshnessTier::Canonical,
+                        bank_id: None,
+                    };
+                    (svc_event, freshness)
                 };
 
                 // Broadcast to all active WebSocket clients
                 let _ = broadcast_tx_clone.send(service_event);
+
+                // Process Sniper Event
+                if let Some(decision) = sniper_engine_clone.process_event(&core_event, &freshness) {
+                    // We can wrap sniper decisions in ChronoServiceEvent if we want to stream them over WS
+                    // For now, we are saving them in history. Let's send a custom SniperDecision notification via ChronoServiceEvent 
+                    // if it's supported, or just let the API fetch it.
+                    let custom_event = crate::envelope::ChronoServiceEvent {
+                        schema_version: 1,
+                        sequence: 0,
+                        event_id: 0,
+                        cluster: cluster.clone(),
+                        source: "SNIPER_ENGINE".to_string(),
+                        environment: "LIVE".to_string(),
+                        observed_at_ms: decision.timestamp_ms,
+                        received_at_ms: decision.timestamp_ms,
+                        event_type: "SNIPER_DECISION".to_string(),
+                        slot: decision.trigger_event.slot.0,
+                        bank_id: None,
+                        blockhash: None,
+                        parent_slot: None,
+                        parent_blockhash: None,
+                        payload: serde_json::to_value(&decision).unwrap_or_default(),
+                        provenance: crate::envelope::EventProvenance::DERIVED,
+                        observer: None,
+                    };
+                    let _ = broadcast_tx_clone.send(custom_event);
+                }
             }
         });
 

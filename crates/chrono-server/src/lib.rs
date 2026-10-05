@@ -6,6 +6,7 @@ pub mod state;
 pub mod service;
 pub mod api;
 pub mod ws;
+pub mod sniper;
 
 pub use config::ServerConfig;
 pub use envelope::{ChronoServiceEvent, EventProvenance};

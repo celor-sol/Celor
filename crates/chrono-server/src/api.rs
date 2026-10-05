@@ -22,6 +22,9 @@ pub struct AppState {
     pub start_time: Instant,
     pub config: ServerConfig,
     pub ws_clients: Arc<AtomicU64>,
+    pub sniper_engine: Arc<crate::sniper::SniperEngine>,
+    pub quic_route: Option<Arc<chrono_bench::route::DirectLeaderQuicRoute>>,
+    pub sniper_ws_tx: tokio::sync::broadcast::Sender<crate::sniper::ExecutionRecord>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -131,7 +134,235 @@ pub fn api_routes(state: AppState) -> Router {
         .route("/api/v1/benchmarks/:id", get(get_benchmark_detail))
         .route("/api/v1/benchmarks/explain/:execution_id", get(explain_execution))
         .route("/api/v1/cluster", post(post_cluster))
+        .route("/api/v1/sniper/rules", get(get_sniper_rules))
+        .route("/api/v1/sniper/rules", post(post_sniper_rule))
+        .route("/api/v1/sniper/rules/:id/arm", post(arm_sniper_rule))
+        .route("/api/v1/sniper/rules/:id/pause", post(pause_sniper_rule))
+        .route("/api/v1/sniper/rules/:id", axum::routing::delete(delete_sniper_rule))
+        .route("/api/v1/sniper/events", get(get_sniper_events))
+        .route("/api/v1/sniper/decisions", get(get_sniper_decisions))
+        .route("/api/v1/sniper/submit", post(submit_sniper_transaction))
+        .route("/api/v1/sniper/executions", get(get_sniper_executions))
+        .route("/api/v1/sniper/ws", axum::routing::get(sniper_ws_handler))
         .with_state(state)
+}
+
+async fn get_sniper_rules(State(state): State<AppState>) -> impl IntoResponse {
+    Json(state.sniper_engine.get_rules())
+}
+
+async fn post_sniper_rule(
+    State(state): State<AppState>,
+    Json(payload): Json<crate::sniper::SniperRule>,
+) -> impl IntoResponse {
+    state.sniper_engine.add_rule(payload.clone());
+    Json(payload)
+}
+
+async fn arm_sniper_rule(
+    Path(id): Path<String>,
+    State(state): State<AppState>,
+) -> impl IntoResponse {
+    if let Some(rule) = state.sniper_engine.update_rule(&id, true) {
+        Json(serde_json::json!({ "success": true, "rule": rule }))
+    } else {
+        Json(serde_json::json!({ "success": false, "error": "Rule not found" }))
+    }
+}
+
+async fn pause_sniper_rule(
+    Path(id): Path<String>,
+    State(state): State<AppState>,
+) -> impl IntoResponse {
+    if let Some(rule) = state.sniper_engine.update_rule(&id, false) {
+        Json(serde_json::json!({ "success": true, "rule": rule }))
+    } else {
+        Json(serde_json::json!({ "success": false, "error": "Rule not found" }))
+    }
+}
+
+async fn delete_sniper_rule(
+    Path(id): Path<String>,
+    State(state): State<AppState>,
+) -> impl IntoResponse {
+    let success = state.sniper_engine.delete_rule(&id);
+    Json(serde_json::json!({ "success": success }))
+}
+
+async fn get_sniper_events(State(state): State<AppState>) -> impl IntoResponse {
+    Json(state.sniper_engine.get_live_events())
+}
+
+async fn get_sniper_decisions(State(state): State<AppState>) -> impl IntoResponse {
+    Json(state.sniper_engine.get_recent_decisions())
+}
+
+#[derive(Debug, Deserialize)]
+pub struct SniperSubmitRequest {
+    pub rule_id: String,
+    pub transaction_base64: String,
+}
+
+#[derive(Debug, Serialize)]
+pub struct SniperSubmitResponse {
+    pub execution_id: String,
+    pub status: String,
+    pub decision: Option<chrono_bench::decision::DecisionResult>,
+    pub message: Option<String>,
+}
+
+async fn submit_sniper_transaction(
+    State(state): State<AppState>,
+    Json(payload): Json<SniperSubmitRequest>,
+) -> impl IntoResponse {
+    let execution_id = format!("exec-{}", std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_millis());
+    
+    // Check if rule exists
+    let _rule = {
+        let rules = state.sniper_engine.get_rules();
+        if let Some(r) = rules.into_iter().find(|r| r.id == payload.rule_id) {
+            r
+        } else {
+            return Json(SniperSubmitResponse {
+                execution_id,
+                status: "FAILED".to_string(),
+                decision: None,
+                message: Some("Rule not found".to_string()),
+            });
+        }
+    };
+    
+    // Freshness check
+    let ws_count = state.ws_clients.load(std::sync::atomic::Ordering::Relaxed) as usize;
+    let snapshot = state.engine.read().await.build_snapshot(ws_count);
+    
+    let slot_elapsed_ms = snapshot.slot.elapsed_ms;
+    let slot_target_duration_ms = snapshot.slot.target_duration_ms;
+    let remaining_window_ms = slot_target_duration_ms.saturating_sub(slot_elapsed_ms);
+
+    let freshness = chrono_bench::freshness::FreshnessState {
+        slot_tier: if slot_elapsed_ms < slot_target_duration_ms * 3 / 4 { chrono_bench::freshness::FreshnessTier::Fresh } else { chrono_bench::freshness::FreshnessTier::Stale },
+        slot_elapsed_ms,
+        slot_target_duration_ms,
+        leader_tier: if remaining_window_ms > 40 { chrono_bench::freshness::FreshnessTier::Fresh } else { chrono_bench::freshness::FreshnessTier::HandoffImminent },
+        current_leader: snapshot.leader.current_leader.clone(),
+        next_leader: snapshot.leader.next_leader.clone(),
+        remaining_window_ms,
+        blockhash_tier: chrono_bench::freshness::FreshnessTier::Fresh,
+        blockhash: snapshot.banks.candidate_banks.first().and_then(|b| b.blockhash.clone()).unwrap_or_else(|| "11111111111111111111111111111111".to_string()),
+        blockhash_age_ms: slot_elapsed_ms,
+        blockhash_age_slots: 0,
+        source_tier: if snapshot.status == "LIVE" { chrono_bench::freshness::FreshnessTier::Fresh } else { chrono_bench::freshness::FreshnessTier::Stale },
+        last_event_received_ago_ms: 5,
+        bank_tier: if snapshot.banks.candidate_banks.iter().any(|b| b.state == "ABANDONED") { chrono_bench::freshness::BankFreshnessTier::Abandoned } else { chrono_bench::freshness::BankFreshnessTier::Canonical },
+        bank_id: snapshot.banks.candidate_banks.first().map(|b| b.bank_id.clone()),
+    };
+    
+    let decision = chrono_bench::decision::ExecutionDecisionEngine::evaluate_chrono(&freshness, true);
+    let mut status = "QUEUED".to_string();
+    let mut message = None;
+    
+    match decision.action {
+        chrono_bench::decision::RoutingAction::Submit => {
+            status = "FIRING".to_string();
+            state.sniper_engine.record_execution(&execution_id, &payload.rule_id, &status, &payload.transaction_base64);
+            
+            // Actually dispatch to QUIC
+            if let Some(route) = &state.quic_route {
+                let tx_b64 = payload.transaction_base64.clone();
+                use chrono_bench::route::ExecutionRoute;
+                // Run execution asynchronously
+                let route_clone = route.clone();
+                let exec_id_clone = execution_id.clone();
+                let engine_clone = state.sniper_engine.clone();
+                let ws_tx = state.sniper_ws_tx.clone();
+                let r_id = payload.rule_id.clone();
+                
+                tokio::spawn(async move {
+                    engine_clone.update_execution_status(&exec_id_clone, "SUBMITTED");
+                    let _ = ws_tx.send(crate::sniper::ExecutionRecord {
+                        execution_id: exec_id_clone.clone(),
+                        rule_id: r_id.clone(),
+                        status: "SUBMITTED".to_string(),
+                        transaction_base64: tx_b64.clone(),
+                        timestamp_ms: std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_millis() as u64,
+                    });
+
+                    match route_clone.submit_transaction(&tx_b64).await {
+                        Ok(_) => {
+                            engine_clone.update_execution_status(&exec_id_clone, "LANDED");
+                            let _ = ws_tx.send(crate::sniper::ExecutionRecord {
+                                execution_id: exec_id_clone.clone(),
+                                rule_id: r_id.clone(),
+                                status: "LANDED".to_string(),
+                                transaction_base64: tx_b64.clone(),
+                                timestamp_ms: std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_millis() as u64,
+                            });
+                        }
+                        Err(_) => {
+                            engine_clone.update_execution_status(&exec_id_clone, "FAILED");
+                            let _ = ws_tx.send(crate::sniper::ExecutionRecord {
+                                execution_id: exec_id_clone.clone(),
+                                rule_id: r_id.clone(),
+                                status: "FAILED".to_string(),
+                                transaction_base64: tx_b64.clone(),
+                                timestamp_ms: std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_millis() as u64,
+                            });
+                        }
+                    }
+                });
+            } else {
+                status = "FAILED".to_string();
+                message = Some("QUIC Route unavailable".to_string());
+                state.sniper_engine.update_execution_status(&execution_id, "FAILED");
+            }
+        }
+        chrono_bench::decision::RoutingAction::Wait { .. } => {
+            status = "WAITING".to_string();
+            state.sniper_engine.record_execution(&execution_id, &payload.rule_id, &status, &payload.transaction_base64);
+        }
+        chrono_bench::decision::RoutingAction::Abort { .. } => {
+            status = "CANCELLED".to_string();
+            state.sniper_engine.record_execution(&execution_id, &payload.rule_id, &status, &payload.transaction_base64);
+        }
+        chrono_bench::decision::RoutingAction::Unknown { .. } => {
+            status = "UNKNOWN".to_string();
+            state.sniper_engine.record_execution(&execution_id, &payload.rule_id, &status, &payload.transaction_base64);
+        }
+        _ => {}
+    }
+    
+    Json(SniperSubmitResponse {
+        execution_id,
+        status,
+        decision: Some(decision),
+        message,
+    })
+}
+
+async fn get_sniper_executions(State(state): State<AppState>) -> impl IntoResponse {
+    Json(state.sniper_engine.get_executions())
+}
+
+async fn sniper_ws_handler(
+    ws: axum::extract::ws::WebSocketUpgrade,
+    State(state): State<AppState>,
+) -> impl IntoResponse {
+    let rx = state.sniper_ws_tx.subscribe();
+    ws.on_upgrade(move |socket| handle_sniper_socket(socket, rx))
+}
+
+async fn handle_sniper_socket(
+    mut socket: axum::extract::ws::WebSocket,
+    mut rx: tokio::sync::broadcast::Receiver<crate::sniper::ExecutionRecord>,
+) {
+    while let Ok(record) = rx.recv().await {
+        if let Ok(json) = serde_json::to_string(&record) {
+            if socket.send(axum::extract::ws::Message::Text(json)).await.is_err() {
+                break;
+            }
+        }
+    }
 }
 
 async fn get_health(State(state): State<AppState>) -> impl IntoResponse {

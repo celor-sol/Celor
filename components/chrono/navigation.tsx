@@ -20,6 +20,7 @@ const navLinks = [
   { name: 'Contract', href: '/contract' },
   { name: 'Telemetry', href: '/telemetry' },
   { name: 'Autopsy', href: '/transaction' },
+  { name: 'Sniper', href: '/sniper' },
   { name: 'Benchmarks', href: '/benchmarks' },
   { name: 'Network', href: '/network' },
   { name: 'Developers', href: '/developers' },
